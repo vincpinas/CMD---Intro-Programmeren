@@ -1,0 +1,83 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --grid-gap: 0.25rem;
+  --column-size: 4rem;
+}
+
+body {
+  background: rgb(10, 10, 10);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  overflow-x: hidden;
+}
+
+.wordle__errors {
+  height: fit-content;
+  max-width: 20rem;
+  padding: 2rem;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+
+  .error {
+    background-color: rgb(22, 22, 22);
+    padding: 0.4rem 1.2rem;
+    color: white;
+    animation: slide-in 1200ms ease-in-out forwards;
+  }
+}
+
+.wordle__grid {
+  display: flex;
+  flex-direction: column;
+  margin: var(--grid-gap);
+  font-size: 2em;
+  text-transform: uppercase;
+
+  .row {
+    display: flex;
+    height: fit-content;
+    width: fit-content;
+  }
+
+  .row .column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: var(--grid-gap);
+    width: var(--column-size);
+    height: var(--column-size);
+    background-color: rgb(22, 22, 22);
+    border-radius: 5px;
+    color: white;
+  }
+
+  .row .column.target {
+    border: 2px solid purple;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateY(0%);
+  }
+}
