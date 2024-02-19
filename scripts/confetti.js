@@ -41,7 +41,6 @@ const confetti = function() {
 				};
 		})();
 		let canvas = document.querySelector(canvasSelector);
-		console.log(canvas)
 		if (canvas === null) {
 			return;
 		}
