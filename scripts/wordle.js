@@ -144,6 +144,8 @@ export default class Wordle {
       if (this.currentCol < this.word.length - 1) this.currentCol += 1;
     } else null;
 
+    if(this.currentAttempt >= this.attempts) return;
+
     target = document.querySelector(`.row-${this.currentAttempt} .column-${this.currentCol}`);
     target.classList.add("target")
   }
