@@ -446,7 +446,6 @@ export const words = [
   "could",
   "council",
   "count",
-  "county",
   "country",
   "courage",
   "course",
@@ -2285,5 +2284,12 @@ export const words = [
   "you",
   "young",
   "youth",
-  "zero"
+  "zero",
+  "eagle",
+  "wolf",
+  "turtle",
+  "seahorse",
+  "gorilla",
+
+
 ]
