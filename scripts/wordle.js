@@ -24,6 +24,7 @@ export default class Wordle {
     this.__createMenu();
     this.init();
     this.__registerKeyEvent();
+    // this.__startTutorial();
   }
 
   // Functions
@@ -68,6 +69,7 @@ export default class Wordle {
     this.word = this.randomWord(this.wordLength).split("");
 
     document.querySelector(".wordle__grid").remove();
+    document.querySelector(".wordle__errors").remove();
 
     const overlay = document.querySelector(".wordle__overlay");
     if (overlay) overlay.remove();
@@ -80,7 +82,7 @@ export default class Wordle {
   checkAnswer(answer, cols) {
     const inWordList = this.inArray(answer.join(''), wordlist);
     const alreadyGuessed = this.inArray(answer.join(''), this.guesses);
-    let correctLetters = 0;
+    let correctLetters = [];
 
     if (answer.length <= 0) return;
     if (!inWordList) return this.__createError(`<span>${answer.join('')}</span> is not in wordlist`);
@@ -89,20 +91,18 @@ export default class Wordle {
     answer.forEach((letter, i) => {
       if (this.inArrayAtPos(letter, i, this.word)) {
         cols[i].style.background = "#004F2D";
-        correctLetters++
+        correctLetters.push({ letter, i })
       } else if (this.inArray(letter, this.word)) {
         cols[i].style.background = "#ffda22";
         cols[i].style.color = "#000000";
-      } else {
-
-      }
+      } else null;
     })
 
     this.currentAttempt += 1;
     this.currentCol = 0;
     this.guesses.push(answer.join(''))
 
-    if (correctLetters === answer.length || this.currentAttempt === this.attempts) this.__createFinishScreen();
+    if (correctLetters.length === answer.length || this.currentAttempt === this.attempts) this.__createFinishScreen();
   }
 
   handleInput(key) {
@@ -144,7 +144,7 @@ export default class Wordle {
       if (this.currentCol < this.word.length - 1) this.currentCol += 1;
     } else null;
 
-    if(this.currentAttempt >= this.attempts) return;
+    if (this.currentAttempt >= this.attempts) return;
 
     target = document.querySelector(`.row-${this.currentAttempt} .column-${this.currentCol}`);
     target.classList.add("target")
@@ -159,12 +159,12 @@ export default class Wordle {
       wordLength.type = "number"
       wordLength.value = this.wordLength;
       wordLength.max = 11;
-      wordLength.min = 1;
+      wordLength.min = 2;
 
       wordLength.addEventListener("change", (e) => {
         let newLength = Number(wordLength.value);
 
-        if(newLength < wordLength.min) {
+        if (newLength < wordLength.min) {
           wordLength.value = wordLength.min;
           this.wordLength = Number(wordLength.min);
         } else if (newLength > wordLength.max) {
@@ -173,11 +173,12 @@ export default class Wordle {
         } else {
           this.wordLength = newLength;
         }
-        
+
         localStorage.setItem("wordle__attempts", this.wordLength)
         this.reset();
-        wordLength.blur();
       })
+
+      wordLength.addEventListener("focus", (e) => e.target.blur());
 
       menu.appendChild(wordLength);
     }
@@ -245,4 +246,76 @@ export default class Wordle {
       this.handleInput(e.key.toLowerCase())
     })
   }
+
+
+
+
+  /*
+    This feature is still in development and has a lot of bugs, not sure if I will ever be able to finish this...
+  */
+
+  // __startTutorial() {
+  //   // Don't start tutorial if tutorial has already been done once.
+  //   if (JSON.parse(localStorage.getItem("wordle__tutorial"))) return;
+
+  //   this.enableControls = false;
+  //   let currentTarget = 0;
+
+  //   const targets = [
+  //     { el: document.querySelector(".wordle__menu > .wordle__menuInput"), text: "Increase or decrease the length of your word using this input" },
+  //     { el: document.querySelector(".wordle__grid"), text: "" }
+  //   ]
+
+  //   const moveTarget = (target) => {
+  //     const element = target.el;
+  //     const parent = element.parentNode;
+  //     const clone = target.el.cloneNode(true);
+
+  //     element.insertAdjacentHTML("afterend", "<div class='wordle__tutorialBackground'></div");
+  //     const background = document.querySelector(".wordle__tutorialBackground");
+
+  //     const flash = this.element("div", "wordle__tutorialFlash");
+  //     flash.style.zIndex = 10;
+
+  //     parent.replaceChild(flash, element);
+  //     flash.appendChild(element);
+
+  //     const tooltip = this.element("div", "wordle__tutorialTooltip", target.text);
+  //     tooltip.style.zIndex = 10;
+
+  //     const buttonWrapper = this.element("span")
+
+  //     if (currentTarget > 0) {
+  //       const prev = this.element("button", "wordle__tutorialButton -prev", "previous");
+  //       buttonWrapper.appendChild(prev)
+  //     }
+
+  //     const next = this.element("button", "wordle__tutorialButton -next", "next");
+
+  //     buttonWrapper.appendChild(next)
+
+  //     tooltip.appendChild(buttonWrapper)
+
+  //     flash.insertAdjacentHTML("afterend", tooltip.outerHTML);
+
+  //     document.querySelector(".-next").addEventListener("click", () => {
+  //       removeTarget(clone, parent, [background, flash, tooltip, element]);
+        
+  //       currentTarget++
+
+  //       moveTarget(targets[currentTarget])
+  //     })
+  //   }
+
+  //   const removeTarget = (clone, parent, remove) => {
+  //     remove.forEach(target => target.remove());
+
+  //     parent.appendChild(clone)
+  //   }
+
+  //   moveTarget(targets[currentTarget]);
+
+    // Set storage to not start tutorial again upon coming back to site.
+    // localStorage.setItem("wordle__tutorial", JSON.stringify(true));
+  // }
 }

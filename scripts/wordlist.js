@@ -1,5 +1,5 @@
 export const words = [
-  "a",
+  "putt",
   "ability",
   "able",
   "about",
@@ -2290,6 +2290,4 @@ export const words = [
   "turtle",
   "seahorse",
   "gorilla",
-
-
 ]

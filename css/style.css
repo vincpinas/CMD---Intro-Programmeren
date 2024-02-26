@@ -7,9 +7,10 @@
 :root {
   --grid-gap: 0.25rem;
   --column-size: 4rem;
+  --footer-height: 3rem;
 }
 
-body {
+body, main {
   background: rgb(10, 10, 10);
   height: 100vh;
   display: flex;
@@ -17,7 +18,7 @@ body {
   justify-content: center;
   align-items: center;
   font-family: sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 button {
@@ -28,9 +29,53 @@ button {
   color: white;
   transition: 200ms;
   border-radius: 5px;
+  cursor: pointer;
 
   &:hover {
     background-color: rgb(30, 30, 30);
+  }
+}
+
+.wordle__tutorialBackground {
+  background: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  position: absolute;
+}
+
+@keyframes flash {
+  from {
+    background: rgba(255, 255, 255, 0.4);
+  }
+}
+
+.wordle__tutorialFlash {
+  padding: 0.4rem;
+  border-radius: 2px;
+  animation: flash 1200ms ease-in-out infinite alternate;
+}
+
+.wordle__tutorialTooltip {
+  padding: 0.4rem 1rem;
+  max-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgb(26, 26, 26);
+  color: white;
+
+  > span {
+    margin-top: 0.4rem;
+    display: flex;
+    gap: 1rem;
+  }
+
+  > span button {
+    padding: 0.4rem 1.5rem;
+    font-size: 0.8em;
   }
 }
 
@@ -148,4 +193,40 @@ button {
   to {
     transform: translateY(0%);
   }
+}
+
+.footer__wrapper {
+  width: 100%;
+  transition: 200ms;
+
+  button {
+    font-size: 0.9em;
+    padding: 0.5rem 1rem;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+}
+
+footer {
+  background:rgb(22, 22, 22);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  height: var(--footer-height);
+  color: white;
+  
+  ul {
+    list-style: none;
+  }
+
+  a {
+    color: green;
+  }
+}
+
+.footer__wrapper.-hidden {
+  transform: translateY(var(--footer-height));
 }
