@@ -2,12 +2,13 @@ export default class Footer {
     constructor() {
         this.footer = document.querySelector(".footer__wrapper");
         this.button = document.querySelector(".footer__wrapper > button")
-        this.hidden = localStorage.getItem("footer__hidden") || false;
+        this.hidden = Storage.get("footer__hidden") || false;
 
         if(this.hidden) {
             this.footer.classList.add("-hidden")
             this.button.innerHTML = "Open";
         }
+
 
         this.button.addEventListener("focus", (e) => e.target.blur());
         this.button.addEventListener("click", () => this.toggle())
@@ -24,6 +25,6 @@ export default class Footer {
             this.hidden = true;
         }
 
-        localStorage.setItem("footer__hidden", JSON.stringify(this.hidden));
+        Storage.set(this.hidden)
     }
 }

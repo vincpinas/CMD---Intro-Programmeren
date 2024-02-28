@@ -9,7 +9,7 @@ import { words as wordlist } from "./wordlist.js";
 export default class Wordle {
   constructor(options = {}) {
     if (!options.word) {
-      this.wordLength = Number(localStorage.getItem('wordle__attempts')) || 6;
+      this.wordLength = Storage.get('wordle__length') || 6;
     }
 
     this.word = options.word && options.word.split("") || this.randomWord(this.wordLength).split("");
@@ -65,6 +65,7 @@ export default class Wordle {
     this.currentCol = 0;
     this.currentAttempt = 0;
     this.guesses = [];
+    this.wordLength = Storage.get("wordle__length");
 
     this.word = this.randomWord(this.wordLength).split("");
 
@@ -159,7 +160,7 @@ export default class Wordle {
       wordLength.type = "number"
       wordLength.value = this.wordLength;
       wordLength.max = 11;
-      wordLength.min = 2;
+      wordLength.min = 3;
 
       wordLength.addEventListener("change", (e) => {
         let newLength = Number(wordLength.value);
@@ -174,7 +175,7 @@ export default class Wordle {
           this.wordLength = newLength;
         }
 
-        localStorage.setItem("wordle__attempts", this.wordLength)
+        Storage.set("wordle__length", this.wordLength)
         this.reset();
       })
 
