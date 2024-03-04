@@ -5,11 +5,12 @@ const ARROWRIGHT_KEY = "arrowright";
 
 import { confetti, startConfetti } from "./confetti.js";
 import { words as wordlist } from "./wordlist.js";
+import { StorageGet, StorageSet } from "./index.js";
 
 export default class Wordle {
   constructor(options = {}) {
     if (!options.word) {
-      this.wordLength = Storage.get('wordle__length') || 6;
+      this.wordLength = StorageGet('wordle__length') || 6;
     }
 
     this.word = options.word && options.word.split("") || this.randomWord(this.wordLength).split("");
@@ -65,7 +66,7 @@ export default class Wordle {
     this.currentCol = 0;
     this.currentAttempt = 0;
     this.guesses = [];
-    this.wordLength = Storage.get("wordle__length");
+    this.wordLength = StorageGet("wordle__length");
 
     this.word = this.randomWord(this.wordLength).split("");
 
@@ -175,7 +176,7 @@ export default class Wordle {
           this.wordLength = newLength;
         }
 
-        Storage.set("wordle__length", this.wordLength)
+        StorageSet("wordle__length", this.wordLength)
         this.reset();
       })
 
@@ -301,7 +302,7 @@ export default class Wordle {
 
   //     document.querySelector(".-next").addEventListener("click", () => {
   //       removeTarget(clone, parent, [background, flash, tooltip, element]);
-        
+
   //       currentTarget++
 
   //       moveTarget(targets[currentTarget])
@@ -316,7 +317,7 @@ export default class Wordle {
 
   //   moveTarget(targets[currentTarget]);
 
-    // Set storage to not start tutorial again upon coming back to site.
-    // localStorage.setItem("wordle__tutorial", JSON.stringify(true));
+  // Set storage to not start tutorial again upon coming back to site.
+  // localStorage.setItem("wordle__tutorial", JSON.stringify(true));
   // }
 }

@@ -1,8 +1,10 @@
+import { StorageGet, StorageSet } from "./index.js";
+
 export default class Footer {
     constructor() {
         this.footer = document.querySelector(".footer__wrapper");
         this.button = document.querySelector(".footer__wrapper > button")
-        this.hidden = Storage.get("footer__hidden") || false;
+        this.hidden = StorageGet("footer__hidden") || false;
 
         if(this.hidden) {
             this.footer.classList.add("-hidden")
@@ -25,6 +27,6 @@ export default class Footer {
             this.hidden = true;
         }
 
-        Storage.set(this.hidden)
+        StorageSet("footer__hidden", this.hidden)
     }
 }
